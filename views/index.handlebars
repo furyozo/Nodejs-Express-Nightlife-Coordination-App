@@ -1,0 +1,32 @@
+<div id="public-index" class="container">
+
+  <div class="row">
+
+    <div class="col-xs-12">
+      <h3>Yelp local selected businesses</h3>
+      <hr>
+    </div>
+
+    {{#each yelps as |yelp|}}
+    <div class="col-xs-12 col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <a href="{{yelp.url}}">
+            {{yelp.name}}
+          </a>
+        </div>
+
+        <div class="panel-body">
+          <a href="{{yelp.url}}">
+            <img class="img-responsive pull-left" src="{{yelp.image_url}}" style="height: 200px;" alt="">
+          </a>
+          <h4>asd</h4>
+        </div>
+
+      </div>
+    </div>
+    {{/each}}
+
+  </div>
+
+</div>
