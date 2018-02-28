@@ -55,7 +55,7 @@ UserSchema.statics.register = function (req, callback) {
 
   var User = this
   // check if user credentials already exist
-  User.findOne({ $or: [{'name': req.body.name}, {'email': req.body.email}] }).exec(function (err, user) {
+  User.findOne({ 'email': req.body.email }).exec(function (err, user) {
     if (err) return callback(err)
     else if (user) {
       var err = new Error('user already exists');

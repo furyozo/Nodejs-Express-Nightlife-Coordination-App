@@ -7,12 +7,9 @@ var Yelp = require('../models/Yelp.js')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // console.log(req.session.searchedTerm)
   if (req.session.searchedTerm) {
     Yelp.getYelp(req.session.searchedTerm, function(err, yelps) {
       if (err) console.error(err);
-      console.log("tato zmrdovina: ")
-      console.log(req.session.user)
       res.render('search', { user: req.session.user, yelps: yelps });
     })
   } else {
@@ -70,7 +67,6 @@ router.get('/logout', function(req, res, next) {
 router.post('/search', function(req, res, next) {
   Yelp.getYelp(req.body.text, function(err, yelps) {
     req.session.searchedTerm = req.body.text;
-    console.log(req.session.user)
     res.render('search', { user: req.session.user, yelps: yelps });
   })
 })
