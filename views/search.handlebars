@@ -7,6 +7,7 @@
       <hr>
     </div>
 
+    {{ user.bar_id }}
     {{#each yelps as |yelp|}}
     <div class="col-xs-12 col-sm-6">
 
@@ -30,11 +31,19 @@
             <p>Review count: {{ yelp.review_count }}</p>
             <div class="panel-bottom">
               <span class="panel-bottomtext">Users: {{yelp.user_count}}</span>
+              {{#ifCond ../user.bar_id yelp.id}}
+              <a href="/leave/{{ yelp.id }}">
+                <button class="btn btn-default btn-xs pull-right panel-button" type="button" name="button">
+                  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                </button>
+              </a>
+              {{else}}
               <a href="/join/{{ yelp.id }}">
                 <button class="btn btn-default btn-xs pull-right panel-button" type="button" name="button">
                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 </button>
               </a>
+              {{/ifCond}}
             </div>
           </div>
         </div>

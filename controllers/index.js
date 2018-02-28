@@ -11,6 +11,8 @@ router.get('/', function(req, res, next) {
   if (req.session.searchedTerm) {
     Yelp.getYelp(req.session.searchedTerm, function(err, yelps) {
       if (err) console.error(err);
+      console.log("tato zmrdovina: ")
+      console.log(req.session.user)
       res.render('search', { user: req.session.user, yelps: yelps });
     })
   } else {
@@ -67,24 +69,44 @@ router.get('/logout', function(req, res, next) {
 /* search through bar loactions */
 router.post('/search', function(req, res, next) {
   Yelp.getYelp(req.body.text, function(err, yelps) {
-    // console.log(yelps)
     req.session.searchedTerm = req.body.text;
+    console.log(req.session.user)
     res.render('search', { user: req.session.user, yelps: yelps });
   })
 })
 
 /* tag a user for joining a specific bar in the night */
 router.get('/join/:bar_id', function(req, res, next) {
-  if (req.session.user) {
-    User.findById(req.session.user._id, function (err, user) {
-      user.bar_id = req.params.bar_id;
-      user.save();
-      res.redirect('/');
-    });
+
+  if (!req.session.user) {
+    res.redirect('/login');
+    return
   }
-  else {
+
+  User.findById(req.session.user._id, function (err, user) {
+    user.bar_id = req.params.bar_id;
+    user.save();
+    req.session.user = user;
     res.redirect('/');
+  });
+
+})
+
+/* tag a user for joining a specific bar in the night */
+router.get('/leave/:bar_id', function(req, res, next) {
+
+  if (!req.session.user) {
+    res.redirect('/login');
+    return
   }
+
+  User.findById(req.session.user._id, function (err, user) {
+    user.bar_id = '';
+    user.save();
+    req.session.user = user;
+    res.redirect('/');
+  });
+
 })
 
 module.exports = router;

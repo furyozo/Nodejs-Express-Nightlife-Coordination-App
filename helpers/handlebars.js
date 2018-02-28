@@ -6,5 +6,9 @@ module.exports = {
     console.log(count);
     return count;
   },
-  bar: function () { return 'BAR!'; }
+  ifCond: function(v1, v2, options) {
+    if (v1 == v2)
+      return options.fn(this);
+    return options.inverse(this);
+  }
 }

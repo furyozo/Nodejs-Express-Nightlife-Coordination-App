@@ -86,6 +86,7 @@ UserSchema.statics.register = function (req, callback) {
 UserSchema.statics.login = function (email, password, callback) {
   this.findOne({ email: email }).exec(function (err, user) {
     if (err) return callback(err)
+    if (!user) return callback("User credentials not found")
     bcrypt.compare(password, user.password, function (err, result) {
       if (result === true) {
         return callback(null, user);
