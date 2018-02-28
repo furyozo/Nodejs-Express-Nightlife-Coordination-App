@@ -21,7 +21,6 @@ module.exports = class Yelp {
       // add count of users that are visiting the bar tonight
       var yelps = response.jsonBody.businesses;
       Yelp.SetYelps(yelps, 0, function() {
-        // return by callback
         callback(null, yelps)
       })
     }).catch(e => {
@@ -29,18 +28,16 @@ module.exports = class Yelp {
     });
   }
 
+  // set yelp joined user count bypassing asynchronous queries by recursion
   static SetYelps(yelps, i, callback) {
-    User.count({ bar_id: yelps[i].id }, function(err, count) {
+    var now = new Date();
+    var startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    User.count({ bar_id: yelps[i].id, updated_at: {$gte: startOfToday} }, function(err, count) {
       if (err) {
         console.error(err);
       } else {
         yelps[i].user_count = count;
       }
-      // if (req.session.user.bar_id = yelps[i].id) {
-      //   yelps[i].present = true;
-      // } else {
-      //   yelps[i].present = false;
-      // }
       if (yelps[i+1]) {
         Yelp.SetYelps(yelps, i+1, callback);
       } else {

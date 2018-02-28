@@ -32,9 +32,8 @@ router.post('/login', function(req, res, next) {
   User.login(req.body.email, req.body.password, function(err, user) {
     if (!req.body.email || !req.body.password)
       res.render('auth/login', {err: "some form data is missing"});
-    else if (!user) {
+    else if (!user)
       res.render('auth/login', {err: "the user credentials were not found"});
-    }
     else if (user) {
       req.session.cookie.expires = new Date(Date.now() + 3600000 * 24)
       req.session.auth = true;
@@ -73,36 +72,31 @@ router.post('/search', function(req, res, next) {
 
 /* tag a user for joining a specific bar in the night */
 router.get('/join/:bar_id', function(req, res, next) {
-
   if (!req.session.user) {
     res.redirect('/login');
     return
   }
-
   User.findById(req.session.user._id, function (err, user) {
     user.bar_id = req.params.bar_id;
+    user.updated_at = new Date();
     user.save();
     req.session.user = user;
     res.redirect('/');
   });
-
 })
 
 /* tag a user for joining a specific bar in the night */
 router.get('/leave/:bar_id', function(req, res, next) {
-
   if (!req.session.user) {
     res.redirect('/login');
     return
   }
-
   User.findById(req.session.user._id, function (err, user) {
     user.bar_id = '';
     user.save();
     req.session.user = user;
     res.redirect('/');
   });
-
 })
 
 module.exports = router;
