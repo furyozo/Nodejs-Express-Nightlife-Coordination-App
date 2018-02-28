@@ -1,0 +1,57 @@
+@font-face {
+  font-family: Raleway;
+  src: url('../fonts/Raleway-SemiBold.ttf');
+}
+
+body {
+  font: 14px Raleway, Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.input-group-addon {
+  cursor: pointer;
+}
+
+#public-index {
+  margin-top: 10vh;
+}
+
+.panel-body {
+  position: relative;
+  min-height: 220px;
+}
+.panel-body .img-container {
+  height: 200px;
+  width: 240px;
+  background-size: cover;
+  background-position: center;
+}
+.panel-body .panel-text {
+  padding: 8px;
+}
+.panel-body .panel-bottom {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 12px;
+}
+.panel-body .panel-bottom .panel-bottomtext {
+  padding: 4px;
+}
+
+
+/* authentication */
+#public-auth {
+  margin-top: 10vh;
+}
+#public-auth .glyphicon {
+  margin-right: 4px;
+  color: #66499e;
+}
+#public-auth .btn {
+  background-color: #66499e;
+  border-color: #66499e;
+}

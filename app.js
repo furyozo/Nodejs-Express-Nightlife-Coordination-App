@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
+var expbbshelpers = require('./helpers/handlebars.js')
+var session = require('express-session')
 
 var routes = require('./controllers/index');
 var users = require('./controllers/users');
@@ -13,14 +15,23 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({defaultLayout: 'public'}));
+app.engine('handlebars', exphbs({
+  defaultLayout: 'public',
+  // the helpers are not being used, they were kept
+  // just for future reference on setting up hbs helpers
+  helpers: expbbshelpers
+}));
 app.set('view engine', 'handlebars');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//use sessions for tracking logins
+app.use(session({
+  secret: 'freeSecretForGithubHaxors',
+  resave: true,
+  saveUninitialized: false
+}));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -42,6 +53,7 @@ if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
+      user: req.session.user,
       message: err.message,
       error: err
     });
@@ -57,6 +69,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

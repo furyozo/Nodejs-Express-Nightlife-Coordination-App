@@ -3,29 +3,15 @@
   <div class="row">
 
     <div class="col-xs-12">
-      <h3>Yelp local selected businesses</h3>
+      <h4>Where you at?</h4>
       <hr>
-    </div>
-
-    {{#each yelps as |yelp|}}
-    <div class="col-xs-12 col-sm-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <a href="{{yelp.url}}">
-            {{yelp.name}}
-          </a>
+      <form action="/search" method="post" id="search-form">
+        <div class="input-group">
+          <input type="text" class="form-control" name="text" placeholder="Search bars by your location ...">
+          <span class="input-group-addon" type="submit" name="button" onclick="document.getElementById('search-form').submit();">Search</span>
         </div>
-
-        <div class="panel-body">
-          <a href="{{yelp.url}}">
-            <img class="img-responsive pull-left" src="{{yelp.image_url}}" style="height: 200px;" alt="">
-          </a>
-          <h4>asd</h4>
-        </div>
-
-      </div>
+      </form>
     </div>
-    {{/each}}
 
   </div>
 
